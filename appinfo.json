@@ -1,13 +1,13 @@
 {
-  "uuid": "33160fce-f167-4c46-90a2-9d7bea5e26fe",
-  "shortName": "hello_kitty",
-  "longName": "hello_kitty",
-  "companyName": "MakeAwesomeHappen",
+  "uuid": "47474372-6577-4c46-90a2-9d7bea5e26fe",
+  "shortName": "Hello Kitty",
+  "longName": "Hello Kitty",
+  "companyName": "GG Crew",
   "versionLabel": "1.0",
   "sdkVersion": "3",
-  "targetPlatforms": ["aplite", "basalt", "chalk"],
+  "targetPlatforms": ["chalk"],
   "watchapp": {
-    "watchface": false
+    "watchface": true
   },
   "appKeys": {
     "dummy": 0

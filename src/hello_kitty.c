@@ -1,60 +1,89 @@
 #include <pebble.h>
 
+
+/**/
+
+
 static Window *window;
-static TextLayer *text_layer;
 
-static void select_click_handler(ClickRecognizerRef recognizer, void *context) {
-  text_layer_set_text(text_layer, "Select");
+static TextLayer *text_time_layer;
+
+
+void update_display_time(struct tm *tick_time) {
+  // Need to be static because they're used by the system later.
+  static char time_text[] = "00:00";
+  char *time_format;
+
+  if (clock_is_24h_style()) {
+    time_format = "%R";
+  } else {
+    time_format = "%I:%M";
+  }
+
+  strftime(time_text, sizeof(time_text), time_format, tick_time);
+
+  // Kludge to handle lack of non-padded hour format string
+  // for twelve hour clock.
+  if (!clock_is_24h_style() && (time_text[0] == '0')) {
+    memmove(time_text, &time_text[1], sizeof(time_text) - 1);
+  }
+
+  text_layer_set_text(text_time_layer, time_text);
 }
 
-static void up_click_handler(ClickRecognizerRef recognizer, void *context) {
-  text_layer_set_text(text_layer, "Up");
+
+void handle_minute_tick(struct tm *tick_time, TimeUnits units_changed) {
+	int delay;
+	
+	update_display_time(tick_time);
 }
 
-static void down_click_handler(ClickRecognizerRef recognizer, void *context) {
-  text_layer_set_text(text_layer, "Down");
-}
-
-static void click_config_provider(void *context) {
-  window_single_click_subscribe(BUTTON_ID_SELECT, select_click_handler);
-  window_single_click_subscribe(BUTTON_ID_UP, up_click_handler);
-  window_single_click_subscribe(BUTTON_ID_DOWN, down_click_handler);
-}
 
 static void window_load(Window *window) {
   Layer *window_layer = window_get_root_layer(window);
   GRect bounds = layer_get_bounds(window_layer);
 
-  text_layer = text_layer_create((GRect) { .origin = { 0, 72 }, .size = { bounds.size.w, 20 } });
-  text_layer_set_text(text_layer, "Press a button");
-  text_layer_set_text_alignment(text_layer, GTextAlignmentCenter);
-  layer_add_child(window_layer, text_layer_get_layer(text_layer));
+	text_time_layer = text_layer_create(GRect(0, 10, 144, 150));
+	text_layer_set_font(text_time_layer, fonts_get_system_font(FONT_KEY_ROBOTO_BOLD_SUBSET_49));
+	text_layer_set_text_color(text_time_layer, GColorBlack);
+	text_layer_set_text_alignment(text_time_layer, GTextAlignmentCenter);
+	text_layer_set_background_color(text_time_layer, GColorWhite);
+	layer_set_bounds(text_layer_get_layer(text_time_layer), GRect(0, 0, 144, 150));
+	layer_add_child(window_layer, text_layer_get_layer(text_time_layer));
 }
 
+
 static void window_unload(Window *window) {
-  text_layer_destroy(text_layer);
+	text_layer_destroy(text_time_layer);
 }
+
 
 static void init(void) {
   window = window_create();
-  window_set_click_config_provider(window, click_config_provider);
   window_set_window_handlers(window, (WindowHandlers) {
     .load = window_load,
     .unload = window_unload,
   });
   const bool animated = true;
   window_stack_push(window, animated);
+  window_set_background_color(window, GColorBlack);
+
+	tick_timer_service_subscribe(MINUTE_UNIT, handle_minute_tick);
 }
 
+
 static void deinit(void) {
+	tick_timer_service_unsubscribe();
+
   window_destroy(window);
 }
+
 
 int main(void) {
   init();
 
-  APP_LOG(APP_LOG_LEVEL_DEBUG, "Done initializing, pushed window: %p", window);
-
   app_event_loop();
+
   deinit();
 }
+

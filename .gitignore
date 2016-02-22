@@ -2,3 +2,6 @@
 
 build/
 
+# Ignore temporary text editor files
+*.*~
+
