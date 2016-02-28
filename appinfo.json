@@ -13,6 +13,12 @@
     "dummy": 0
   },
   "resources": {
-    "media": []
+    "media": [
+      {
+        "type": "png",
+        "name": "IMAGE_KITTY_HEAD",
+        "file": "images/kitty_head.png"
+      }
+    ]
   }
 }
