@@ -74,7 +74,7 @@ static void window_load(Window *window) {
 	bitmap_kitty_head = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_KITTY_HEAD);
 	GRect kitty_head_bounds = gbitmap_get_bounds(bitmap_kitty_head);
   kitty_head_layer = layer_create(kitty_head_bounds);
-  layer_set_frame(kitty_head_layer, GRect(0, 70, kitty_head_bounds.size.w, kitty_head_bounds.size.h));
+  layer_set_frame(kitty_head_layer, GRect(0, 65, kitty_head_bounds.size.w, kitty_head_bounds.size.h));
   layer_set_update_proc(kitty_head_layer, kitty_head_layer_update_callback);
   layer_add_child(window_layer, kitty_head_layer);
 }
