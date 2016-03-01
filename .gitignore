@@ -5,3 +5,6 @@ build/
 # Ignore temporary text editor files
 *.*~
 
+# Ignore Windows system files
+Thumbs.db
+
