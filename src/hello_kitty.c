@@ -14,6 +14,7 @@
 static Window *window;
 
 static Layer *kitty_head_layer;
+static Layer *kitty_bow_color_layer;
 
 static TextLayer *text_time_layer;
 
@@ -59,22 +60,38 @@ void kitty_head_layer_update_callback(Layer *layer, GContext* ctx) {
 }
 
 
+void kitty_bow_color_layer_update_callback(Layer *layer, GContext* ctx) {
+	graphics_context_set_compositing_mode(ctx, GCompOpSet);
+	graphics_context_set_fill_color(ctx, GColorRed);
+	graphics_fill_rect(ctx, GRect(92, 7, 70, 52), 0, GCornerNone);
+};
+
+
 static void window_load(Window *window) {
   Layer *window_layer = window_get_root_layer(window);
-  GRect bounds = layer_get_bounds(window_layer);
-
+  GRect window_bounds = layer_get_bounds(window_layer);
+	GRect kitty_head_bounds;
+	GRect kitty_head_frame;
+	
 	text_time_layer = text_layer_create(GRect(0, 15, WINDOW_WIDTH, 60));
 	text_layer_set_font(text_time_layer, fonts_get_system_font(FONT_KEY_ROBOTO_BOLD_SUBSET_49));
 	text_layer_set_text_color(text_time_layer, GColorBlack);
 	text_layer_set_text_alignment(text_time_layer, GTextAlignmentCenter);
 	text_layer_set_background_color(text_time_layer, GColorClear);
-	layer_set_bounds(text_layer_get_layer(text_time_layer), bounds);
+	layer_set_bounds(text_layer_get_layer(text_time_layer), window_bounds);
 	layer_add_child(window_layer, text_layer_get_layer(text_time_layer));
 
 	bitmap_kitty_head = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_KITTY_HEAD);
-	GRect kitty_head_bounds = gbitmap_get_bounds(bitmap_kitty_head);
+	kitty_head_bounds = gbitmap_get_bounds(bitmap_kitty_head);
+	kitty_head_frame = GRect(0, 65, kitty_head_bounds.size.w, kitty_head_bounds.size.h);
+
+	kitty_bow_color_layer = layer_create(kitty_head_bounds);
+	layer_set_frame(kitty_bow_color_layer, kitty_head_frame);
+  layer_set_update_proc(kitty_bow_color_layer, kitty_bow_color_layer_update_callback);
+  layer_add_child(window_layer, kitty_bow_color_layer);
+	
   kitty_head_layer = layer_create(kitty_head_bounds);
-  layer_set_frame(kitty_head_layer, GRect(0, 65, kitty_head_bounds.size.w, kitty_head_bounds.size.h));
+  layer_set_frame(kitty_head_layer, kitty_head_frame);
   layer_set_update_proc(kitty_head_layer, kitty_head_layer_update_callback);
   layer_add_child(window_layer, kitty_head_layer);
 }
