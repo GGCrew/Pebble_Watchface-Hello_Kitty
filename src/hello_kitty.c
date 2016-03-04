@@ -20,6 +20,25 @@ static TextLayer *text_time_layer;
 
 static GBitmap *bitmap_kitty_head;
 
+static GPath *path_bow;
+
+
+static const GPathInfo BOW_PATH_DATA = {
+	.num_points = 10,
+	.points = (GPoint[]) {
+		{0,		30},
+		{1,		22},
+		{3,		15},
+		{8,		6},
+		{15,	0},
+		{23,	0},
+		{25,	10},
+		{30,	10},
+		{40,	15},
+		{50,	30}		
+	}
+};
+
 
 void update_display_time(struct tm *tick_time) {
   // Need to be static because they're used by the system later.
@@ -61,9 +80,11 @@ void kitty_head_layer_update_callback(Layer *layer, GContext* ctx) {
 
 
 void kitty_bow_color_layer_update_callback(Layer *layer, GContext* ctx) {
-	graphics_context_set_compositing_mode(ctx, GCompOpSet);
-	graphics_context_set_fill_color(ctx, GColorRed);
-	graphics_fill_rect(ctx, GRect(92, 7, 70, 52), 0, GCornerNone);
+	//graphics_context_set_compositing_mode(ctx, GCompOpSet);
+	//graphics_context_set_fill_color(ctx, GColorRed);
+	//graphics_fill_rect(ctx, GRect(92, 7, 70, 52), 0, GCornerNone);
+	graphics_context_set_stroke_color(ctx, GColorRed);
+	gpath_draw_outline(ctx, path_bow);
 };
 
 
@@ -85,15 +106,16 @@ static void window_load(Window *window) {
 	kitty_head_bounds = gbitmap_get_bounds(bitmap_kitty_head);
 	kitty_head_frame = GRect(0, 65, kitty_head_bounds.size.w, kitty_head_bounds.size.h);
 
+  kitty_head_layer = layer_create(kitty_head_bounds);
+  layer_set_frame(kitty_head_layer, kitty_head_frame);
+  layer_set_update_proc(kitty_head_layer, kitty_head_layer_update_callback);
+  layer_add_child(window_layer, kitty_head_layer);
+
 	kitty_bow_color_layer = layer_create(kitty_head_bounds);
 	layer_set_frame(kitty_bow_color_layer, kitty_head_frame);
   layer_set_update_proc(kitty_bow_color_layer, kitty_bow_color_layer_update_callback);
   layer_add_child(window_layer, kitty_bow_color_layer);
 	
-  kitty_head_layer = layer_create(kitty_head_bounds);
-  layer_set_frame(kitty_head_layer, kitty_head_frame);
-  layer_set_update_proc(kitty_head_layer, kitty_head_layer_update_callback);
-  layer_add_child(window_layer, kitty_head_layer);
 }
 
 
@@ -114,12 +136,17 @@ static void init(void) {
   window_stack_push(window, animated);
 	window_set_background_color(window, GColorWhite);
 
+	path_bow = gpath_create(&BOW_PATH_DATA);
+	gpath_move_to(path_bow, GPoint(90, 5));
+
 	tick_timer_service_subscribe(MINUTE_UNIT, handle_minute_tick);
 }
 
 
 static void deinit(void) {
 	tick_timer_service_unsubscribe();
+
+	gpath_destroy(path_bow);
 
   window_destroy(window);
 }
