@@ -16,6 +16,7 @@ static Window *window;
 static Layer *kitty_head_layer;
 
 static TextLayer *text_time_layer;
+static TextLayer *text_date_layer;
 
 static GBitmap *bitmap_kitty_head;
 
@@ -23,6 +24,7 @@ static GBitmap *bitmap_kitty_head;
 void update_display_time(struct tm *tick_time) {
   // Need to be static because they're used by the system later.
   static char time_text[] = "00:00";
+  static char date_text[] = "XXX 00/00";
   char *time_format;
 
   if (clock_is_24h_style()) {
@@ -40,6 +42,7 @@ void update_display_time(struct tm *tick_time) {
   }
 
   text_layer_set_text(text_time_layer, time_text);
+  text_layer_set_text(text_date_layer, date_text);
 }
 
 
@@ -62,6 +65,14 @@ void kitty_head_layer_update_callback(Layer *layer, GContext* ctx) {
 static void window_load(Window *window) {
   Layer *window_layer = window_get_root_layer(window);
   GRect bounds = layer_get_bounds(window_layer);
+
+	text_date_layer = text_layer_create(GRect(0, 5, WINDOW_WIDTH, 60));
+	text_layer_set_font(text_date_layer, fonts_get_system_font(FONT_KEY_ROBOTO_CONDENSED_21));
+	text_layer_set_text_color(text_date_layer, GColorBlack);
+	text_layer_set_text_alignment(text_date_layer, GTextAlignmentCenter);
+	text_layer_set_background_color(text_date_layer, GColorYellow);
+	layer_set_bounds(text_layer_get_layer(text_date_layer), bounds);
+	layer_add_child(window_layer, text_layer_get_layer(text_date_layer));
 
 	text_time_layer = text_layer_create(GRect(0, 15, WINDOW_WIDTH, 60));
 	text_layer_set_font(text_time_layer, fonts_get_system_font(FONT_KEY_ROBOTO_BOLD_SUBSET_49));
