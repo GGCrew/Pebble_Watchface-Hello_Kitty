@@ -8,3 +8,6 @@ build/
 # Ignore Windows system files
 Thumbs.db
 
+# Ignore compiled Python files
+*.pyc
+
