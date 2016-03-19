@@ -21,9 +21,11 @@ static TextLayer *text_date_layer;
 
 static GBitmap *bitmap_kitty_head;
 
-static GPath *path_bow;
+//static GPath *path_bow;
+static GDrawCommandImage *s_command_image;
 
 
+/*
 static const GPathInfo BOW_PATH_DATA = {
 	.num_points = 10,
 	.points = (GPoint[]) {
@@ -39,6 +41,7 @@ static const GPathInfo BOW_PATH_DATA = {
 		{50,	30}		
 	}
 };
+*/
 
 
 void update_display_time(struct tm *tick_time) {
@@ -116,8 +119,11 @@ void kitty_bow_color_layer_update_callback(Layer *layer, GContext* ctx) {
 	//graphics_context_set_compositing_mode(ctx, GCompOpSet);
 	//graphics_context_set_fill_color(ctx, GColorRed);
 	//graphics_fill_rect(ctx, GRect(92, 7, 70, 52), 0, GCornerNone);
-	graphics_context_set_stroke_color(ctx, GColorRed);
-	gpath_draw_outline(ctx, path_bow);
+
+	//graphics_context_set_stroke_color(ctx, GColorRed);
+	//gpath_draw_outline(ctx, path_bow);
+
+	gdraw_command_image_draw(ctx, s_command_image, GPoint(10, 10));
 };
 
 
@@ -177,8 +183,10 @@ static void init(void) {
   window_stack_push(window, animated);
 	window_set_background_color(window, GColorWhite);
 
-	path_bow = gpath_create(&BOW_PATH_DATA);
-	gpath_move_to(path_bow, GPoint(90, 5));
+	//path_bow = gpath_create(&BOW_PATH_DATA);
+	//gpath_move_to(path_bow, GPoint(90, 5));
+
+	s_command_image = gdraw_command_image_create_with_resource(RESOURCE_ID_PDC_BOW);
 
 	tick_timer_service_subscribe(MINUTE_UNIT, handle_minute_tick);
 }
@@ -187,7 +195,9 @@ static void init(void) {
 static void deinit(void) {
 	tick_timer_service_unsubscribe();
 
-	gpath_destroy(path_bow);
+	//gpath_destroy(path_bow);
+
+	gdraw_command_image_destroy(s_command_image);
 
   window_destroy(window);
 }
