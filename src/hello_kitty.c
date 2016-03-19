@@ -14,10 +14,31 @@
 static Window *window;
 
 static Layer *kitty_head_layer;
+static Layer *kitty_bow_color_layer;
 
 static TextLayer *text_time_layer;
+static TextLayer *text_date_layer;
 
 static GBitmap *bitmap_kitty_head;
+
+static GPath *path_bow;
+
+
+static const GPathInfo BOW_PATH_DATA = {
+	.num_points = 10,
+	.points = (GPoint[]) {
+		{0,		30},
+		{1,		22},
+		{3,		15},
+		{8,		6},
+		{15,	0},
+		{23,	0},
+		{25,	10},
+		{30,	10},
+		{40,	15},
+		{50,	30}		
+	}
+};
 
 
 void update_display_time(struct tm *tick_time) {
@@ -43,8 +64,40 @@ void update_display_time(struct tm *tick_time) {
 }
 
 
+void update_display_date(struct tm *tick_time) {
+  // Need to be static because they're used by the system later.
+  static char date_text[] = "00/00";
+  char *date_format;
+  int char_count;
+  int zero_position;
+
+  date_format = "%m/%d";
+
+	char_count = sizeof(date_text);
+  strftime(date_text, char_count, date_format, tick_time);
+
+	// strip leading zeroes
+	zero_position = 3;
+	if (date_text[zero_position] == '0') {
+		char_count--;
+		memmove(&date_text[zero_position], &date_text[zero_position + 1], (char_count - zero_position));
+	}
+	zero_position = 0;
+	if (date_text[zero_position] == '0') {
+		char_count--;
+		memmove(&date_text[zero_position], &date_text[zero_position + 1], (char_count - zero_position));
+	}
+
+  text_layer_set_text(text_date_layer, date_text);
+}
+
+
 void handle_minute_tick(struct tm *tick_time, TimeUnits units_changed) {
 	update_display_time(tick_time);
+	
+	//if (units_changed & DAY_UNIT) {
+		update_display_date(tick_time);	
+	//}
 }
 
 
@@ -59,24 +112,51 @@ void kitty_head_layer_update_callback(Layer *layer, GContext* ctx) {
 }
 
 
+void kitty_bow_color_layer_update_callback(Layer *layer, GContext* ctx) {
+	//graphics_context_set_compositing_mode(ctx, GCompOpSet);
+	//graphics_context_set_fill_color(ctx, GColorRed);
+	//graphics_fill_rect(ctx, GRect(92, 7, 70, 52), 0, GCornerNone);
+	graphics_context_set_stroke_color(ctx, GColorRed);
+	gpath_draw_outline(ctx, path_bow);
+};
+
+
 static void window_load(Window *window) {
   Layer *window_layer = window_get_root_layer(window);
-  GRect bounds = layer_get_bounds(window_layer);
+  GRect window_bounds = layer_get_bounds(window_layer);
+	GRect kitty_head_bounds;
+	GRect kitty_head_frame;
+	
+	text_date_layer = text_layer_create(GRect(0, 1, WINDOW_WIDTH, 30));
+	text_layer_set_font(text_date_layer, fonts_get_system_font(FONT_KEY_ROBOTO_CONDENSED_21));
+	text_layer_set_text_color(text_date_layer, GColorBlack);
+	text_layer_set_text_alignment(text_date_layer, GTextAlignmentCenter);
+	text_layer_set_background_color(text_date_layer, GColorClear);
+	layer_set_bounds(text_layer_get_layer(text_date_layer), window_bounds);
+	layer_add_child(window_layer, text_layer_get_layer(text_date_layer));
 
 	text_time_layer = text_layer_create(GRect(0, 15, WINDOW_WIDTH, 60));
 	text_layer_set_font(text_time_layer, fonts_get_system_font(FONT_KEY_ROBOTO_BOLD_SUBSET_49));
 	text_layer_set_text_color(text_time_layer, GColorBlack);
 	text_layer_set_text_alignment(text_time_layer, GTextAlignmentCenter);
 	text_layer_set_background_color(text_time_layer, GColorClear);
-	layer_set_bounds(text_layer_get_layer(text_time_layer), bounds);
+	layer_set_bounds(text_layer_get_layer(text_time_layer), window_bounds);
 	layer_add_child(window_layer, text_layer_get_layer(text_time_layer));
 
 	bitmap_kitty_head = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_KITTY_HEAD);
-	GRect kitty_head_bounds = gbitmap_get_bounds(bitmap_kitty_head);
+	kitty_head_bounds = gbitmap_get_bounds(bitmap_kitty_head);
+	kitty_head_frame = GRect(0, 65, kitty_head_bounds.size.w, kitty_head_bounds.size.h);
+
   kitty_head_layer = layer_create(kitty_head_bounds);
-  layer_set_frame(kitty_head_layer, GRect(0, 65, kitty_head_bounds.size.w, kitty_head_bounds.size.h));
+  layer_set_frame(kitty_head_layer, kitty_head_frame);
   layer_set_update_proc(kitty_head_layer, kitty_head_layer_update_callback);
   layer_add_child(window_layer, kitty_head_layer);
+
+	kitty_bow_color_layer = layer_create(kitty_head_bounds);
+	layer_set_frame(kitty_bow_color_layer, kitty_head_frame);
+  layer_set_update_proc(kitty_bow_color_layer, kitty_bow_color_layer_update_callback);
+  layer_add_child(window_layer, kitty_bow_color_layer);
+	
 }
 
 
@@ -97,12 +177,17 @@ static void init(void) {
   window_stack_push(window, animated);
 	window_set_background_color(window, GColorWhite);
 
+	path_bow = gpath_create(&BOW_PATH_DATA);
+	gpath_move_to(path_bow, GPoint(90, 5));
+
 	tick_timer_service_subscribe(MINUTE_UNIT, handle_minute_tick);
 }
 
 
 static void deinit(void) {
 	tick_timer_service_unsubscribe();
+
+	gpath_destroy(path_bow);
 
   window_destroy(window);
 }
