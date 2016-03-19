@@ -18,6 +18,11 @@
         "type": "png",
         "name": "IMAGE_KITTY_HEAD",
         "file": "images/kitty_head.png"
+      },
+      {
+      	"type": "raw",
+      	"name": "PDC_BOW",
+      	"file": "images/svg/bow.pdc"
       }
     ]
   }
