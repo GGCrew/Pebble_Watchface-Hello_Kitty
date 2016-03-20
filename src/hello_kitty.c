@@ -123,7 +123,7 @@ void kitty_bow_color_layer_update_callback(Layer *layer, GContext* ctx) {
 	//graphics_context_set_stroke_color(ctx, GColorRed);
 	//gpath_draw_outline(ctx, path_bow);
 
-	gdraw_command_image_draw(ctx, s_command_image, GPoint(10, 10));
+	gdraw_command_image_draw(ctx, s_command_image, GPoint(100, 20));
 };
 
 
@@ -156,7 +156,7 @@ static void window_load(Window *window) {
   kitty_head_layer = layer_create(kitty_head_bounds);
   layer_set_frame(kitty_head_layer, kitty_head_frame);
   layer_set_update_proc(kitty_head_layer, kitty_head_layer_update_callback);
-  layer_add_child(window_layer, kitty_head_layer);
+  //layer_add_child(window_layer, kitty_head_layer);
 
 	kitty_bow_color_layer = layer_create(kitty_head_bounds);
 	layer_set_frame(kitty_bow_color_layer, kitty_head_frame);
