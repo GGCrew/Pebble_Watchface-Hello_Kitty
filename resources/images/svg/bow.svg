@@ -10,12 +10,12 @@
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    version="1.0"
-   width="10.000016"
-   height="7.8759818"
-   viewBox="-187.81991 -187.81991 91.022022 71.697401"
+   width="42.248631"
+   height="33.870819"
+   viewBox="-187.81991 -187.81991 384.55495 308.33612"
    id="svg10326"
    inkscape:version="0.91 r13725"
-   sodipodi:docname="bow.svg">
+   sodipodi:docname="bow_test.svg">
   <metadata
      id="metadata4152">
     <rdf:RDF>
@@ -41,59 +41,55 @@
      inkscape:window-height="796"
      id="namedview4150"
      showgrid="false"
-     inkscape:zoom="7.9858135"
-     inkscape:cx="49.980063"
-     inkscape:cy="39.382328"
-     inkscape:window-x="468"
-     inkscape:window-y="7"
+     inkscape:zoom="0.82558543"
+     inkscape:cx="21.585393"
+     inkscape:cy="51.151285"
+     inkscape:window-x="543"
+     inkscape:window-y="27"
      inkscape:window-maximized="0"
-     inkscape:current-layer="layer3"
+     inkscape:current-layer="svg10326"
      fit-margin-top="0"
      fit-margin-left="0"
-     fit-margin-right="0"
-     fit-margin-bottom="0" />
+     fit-margin-right="-0.5"
+     fit-margin-bottom="0.2"
+     units="px" />
   <defs
      id="defs10328" />
   <g
      inkscape:groupmode="layer"
      id="layer3"
      inkscape:label="Bow Outline"
-     style="display:inline"
-     transform="translate(-4958.1773,-3276.3811)">
-    <g
-       id="g4145"
-       transform="matrix(0.0233926,0,0,0.02339112,4658.7241,3086.3366)">
-      <path
-         sodipodi:nodetypes="cssccsssc"
-         inkscape:connector-curvature="0"
-         id="path4734"
-         d="m 6145.1097,2132.2956 c 0,0 -651.8679,312.2947 -1044.2964,35.6415 -572.5779,-403.6546 88.5223,-2028.40294 805.4982,-1956.71929 51.2087,5.11987 559.5719,28.51322 809.0625,990.83419 m 595.2133,331.466 c 0,0 608.1227,-335.3319 1115.5795,-39.2056 201.5298,117.6026 128.0764,619.1929 -47.2456,968.4513 -175.3219,349.2585 -516.6671,624.5963 -790.3301,578.3905 -376.1075,-63.5027 -556.0076,-438.3906 -584.5208,-595.2133"
-         style="fill:#ff0000;fill-rule:evenodd;stroke:#000000;stroke-width:227.58241272;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
-      <path
-         sodipodi:nodetypes="cc"
-         inkscape:connector-curvature="0"
-         id="path4738"
-         d="M 6366.0871,1312.5406 C 5869.174,747.61528 5378.0621,1709.6382 6080.955,1818.6502"
-         style="fill:#ff0000;fill-rule:evenodd;stroke:#000000;stroke-width:227.58241272;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
-      <path
-         sodipodi:nodetypes="cc"
-         inkscape:connector-curvature="0"
-         id="path4740"
-         d="m 7403.2552,1847.1634 c 662.9322,-35.6415 317.2095,898.1662 -174.6434,427.6982"
-         style="fill:#ff0000;fill-rule:evenodd;stroke:#000000;stroke-width:227.58241272;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
-      <path
-         d="m 7373.5216,1847.3446 a 642.17334,642.17334 0 0 1 -649.4555,633.0398 642.17334,642.17334 0 0 1 -634.8024,-647.7327 642.17334,642.17334 0 0 1 646.005,-636.5604 642.17334,642.17334 0 0 1 638.3138,644.2726"
-         sodipodi:open="true"
-         sodipodi:end="0.0032871008"
-         sodipodi:start="0.014158006"
-         sodipodi:ry="642.17334"
-         sodipodi:rx="642.17334"
-         sodipodi:cy="1838.2531"
-         sodipodi:cx="6731.4126"
-         sodipodi:type="arc"
-         id="path4736"
-         style="fill:#ff0000;fill-opacity:1;stroke:#000000;stroke-width:227.58241272;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
-    </g>
+     style="display:inline">
+    <path
+       sodipodi:nodetypes="cssccsssc"
+       inkscape:connector-curvature="0"
+       id="path4734"
+       d="m -50.311345,17.71996 c 0,0 -65.186795,31.2294 -104.429695,3.5641 -57.2577,-40.3654 8.8523,-202.8403 80.549895,-195.6719 5.1208,0.512 55.9572,2.8513 80.9062005,99.0834 m 59.5212995,33.1466 c 0,0 60.812305,-33.5332 111.558005,-3.9206 20.153,11.7603 12.8076,61.9193 -4.7246,96.8452 -17.5322,34.9258 -51.6667,62.4596 -79.033005,57.839 -37.6107,-6.3502 -55.6007,-43.839 -58.4521,-59.5213"
+       style="fill:#ff0000;fill-rule:evenodd;stroke:#000000;stroke-width:22.75824165;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <path
+       sodipodi:nodetypes="cc"
+       inkscape:connector-curvature="0"
+       id="path4740"
+       d="m 75.503155,-10.79324 c 66.293305,-3.5642 31.721005,89.8166 -17.4643,42.7698"
+       style="fill:#ff0000;fill-rule:evenodd;stroke:#000000;stroke-width:22.75824165;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <path
+       sodipodi:nodetypes="cc"
+       inkscape:connector-curvature="0"
+       id="path4738"
+       d="m -28.213645,-64.25554 c -49.6913,-56.4926 -98.802495,39.7097 -28.5132,50.6109"
+       style="fill:#ff0000;fill-rule:evenodd;stroke:#000000;stroke-width:22.75824165;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <path
+       d="M 72.529881,-10.775117 A 64.217331,64.217331 0 0 1 7.5843377,52.528853 64.217331,64.217331 0 0 1 -55.895902,-12.244408 64.217331,64.217331 0 0 1 8.7045976,-75.900449 64.217331,64.217331 0 0 1 72.53597,-11.473187"
+       sodipodi:open="true"
+       sodipodi:end="0.0032871008"
+       sodipodi:start="0.014158006"
+       sodipodi:ry="64.217331"
+       sodipodi:rx="64.217331"
+       sodipodi:cy="-11.684276"
+       sodipodi:cx="8.3189859"
+       sodipodi:type="arc"
+       id="path4736"
+       style="fill:#ff0000;fill-opacity:1;stroke:#000000;stroke-width:22.75824165;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
   </g>
 </svg>
 <!-- version: 20090314, original size: 8945 6260.6636, border: 3% -->
